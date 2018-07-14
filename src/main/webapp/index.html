@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Cálculo de Frete</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"> </script>
+</head>
+<body>
+	<div>
+		<p>Digite o valor:</p>
+		<input type="text">
+		<button onclick="teste()">Teste</button>
+	</div>
+	<script type="text/javascript">
+		function teste() {
+			$.get("teste", function(data, status){
+	            alert("Data: " + data + "\nStatus: " + status);
+	        });
+		}
+	</script>
+</body>
+</html>
