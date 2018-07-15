@@ -3,47 +3,35 @@ package br.com.softplan.sienge.exercicio2;
 import java.util.Iterator;
 import java.util.List;
 
-public class GeradorObservacao { 
-
-	//Textos pr�-definidos
-	static final String umoNota = "Fatura da nota fiscal de simples remessa: ";
-	//Identificador da entidade
-	String texto;
-		
-	//Gera observa��es, com texto pre-definido, incluindo os n�meros, das notas fiscais, recebidos no par�metro
-	public String geraObservacao(List lista) 
-	{
-		texto = "";
-		if (!lista.isEmpty()) 
-		{
-			return retornaCodigos(lista) + ".";
-		}		
-		return "";		
+public class GeradorObservacao {
+	
+	public String geraObservacao(List<Integer> codigos) {
+		return  (codigos == null || codigos.isEmpty()) ? "" : this.geraMensagemObservacao(codigos);
 	}
-
-	//Cria observa��o
-	private String retornaCodigos(List lista) {
-		if (lista.size() >= 2) {
-			texto = "Fatura das notas fiscais de simples remessa: ";
-		} else {
-			texto = umoNota;
-		}
-		
-		//Acha separador
-		StringBuilder cod = new StringBuilder();
-		for (Iterator<Integer> iterator = lista.iterator(); iterator.hasNext();) {
-			Integer c = iterator.next();
-			String s = "";
-			if( cod.toString() == null || cod.toString().length() <= 0 )
-				s =  "";
-				else if( iterator.hasNext() )
-					s =  ", ";
-				else
-					s =  " e ";
-			
-			cod.append(s + c);
-		}
-		
-		return texto + cod;
+	
+	private String geraMensagemObservacao(List<Integer> codigos) {
+		return new StringBuilder(this.getMensagemInicial(codigos))
+				.append(this.getCodigosComSeparador(codigos))
+				.append(".")
+				.toString();
 	}
+	
+	private String getMensagemInicial(List<Integer> codigos) {
+		return String.format("Fatura %s de simples remessa: ", codigos.size() > 1 ? "das notas fiscais" : "da nota fiscal");
+	}
+	
+	private String getCodigosComSeparador(List<Integer> codigos) {
+		StringBuilder strCodigos = new StringBuilder();		
+		for (Iterator<Integer> iterator = codigos.iterator(); iterator.hasNext();) {
+			Integer codigo = iterator.next();
+			if (strCodigos.length() == 0) {
+				strCodigos.append(String.valueOf(codigo));
+			} else if (iterator.hasNext()) {
+				strCodigos.append(", ").append(String.valueOf(codigo));
+			} else {
+				strCodigos.append(" e ").append(String.valueOf(codigo));
+			}
+		}
+		return strCodigos.toString();
+	}		
 }
