@@ -10,3 +10,4 @@ Sobre o exercício 2:<br />
 4 - É possível utilizar "String.format" para evitar duplicação de textos; <br/>
 5 - Variáveis com nomes pouco exclarecedores, podem ser renomeadas para ter melhor sentido (cod, c, s); <br/>
 6 - Formatar o código fazendo identação e adicionando chaves em todos os blocos de comandos, com início na mesma linha; <br/>
+7 - Adicionar tipagem na lista de códigos, melhorando a leitura de desenvolvedores para saber qual é o tipo de 'codigo';
