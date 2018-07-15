@@ -6,15 +6,53 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"> </script>
 </head>
 <body>
-	<div>
-		<p>Digite o valor:</p>
-		<input type="text">
-		<button onclick="teste()">Teste</button>
+	<div>	
+		<p>Distância em rodovia pavimentada (Km):</p>
+		<input type="number" min="0" step="1" id="pavedDistance">
+		
+		<p>Distância em rodovia não-pavimentada (Km):</p>
+		<input type="number" min="0" step="1" id="notPavedDistance">
+		
+		<p>Veículo utilizado:</p>
+		<select id ="vehicleType">
+		</select>
+		
+		<p>Carga transportada (Toneladas):</p>
+		<input type="number" min="0" step="1" id="weightCargo">
+		
+		<p>
+			<button onclick="calculate()">Calcular</button>
+		</p>
+		
+		<br>
+		<div id="result"></div>
 	</div>
+	
 	<script type="text/javascript">
-		function teste() {
-			$.get("teste", function(data, status){
-	            alert("Data: " + data + "\nStatus: " + status);
+		$(document).ready(function() {
+			$.get("vehicle-type", function(data, status) {
+				var select = document.getElementById("vehicleType");
+	            for (var i = 0; i < data.vehicles.length; i++) {
+	            	var option = document.createElement("option");
+	            	option.value = data.vehicles[i].name;
+	            	option.text = data.vehicles[i].description;
+	            	select.add(option);
+	            }
+	        });	
+		});
+		
+		function calculate() {
+			var queryUrl = "calculate?";
+			queryUrl += "pavedRoadDistance=" + document.getElementById("pavedDistance").value;
+			queryUrl += "&notPavedRoadDistance=" + document.getElementById("notPavedDistance").value;
+			queryUrl += "&vehicleType=" + document.getElementById("vehicleType").value;
+			queryUrl += "&weightCargo=" + document.getElementById("weightCargo").value;
+			$.get(queryUrl, function(data, status) {
+				if (status == "success") {
+					document.getElementById("result").innerHTML = "Resultado do cálculo: R$ " + data;
+				} 
+	        }).fail(function(data) {
+	            document.getElementById("result").innerHTML = "<span style=\"color: red;\">(!) Ocorreu um erro: " + data.responseJSON.message + "</span>";
 	        });
 		}
 	</script>
